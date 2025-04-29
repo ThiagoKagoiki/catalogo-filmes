@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './MovieList.css'
+import { Link } from 'react-router-dom';
 
 export const MovieList = () => {
 
@@ -28,7 +29,15 @@ export const MovieList = () => {
 
 
 
-  
+    const verdetalhes = (query) => {
+      fetch(`https://www.omdbapi.com/?apikey=85e5217c&t=${query}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data); // Aqui vai mostrar os detalhes do filme
+      })
+      .catch(error => console.error(error));
+      //console.log(query)
+    }
     
 
   
@@ -40,7 +49,7 @@ export const MovieList = () => {
           throw new Error(data.Error);
         }
         const filmeBuscado = data.Search.filter(movie => 
-          movie.Title.toLowerCase().includes('batman')
+          movie.Title.toLowerCase().includes(query)
         );
         setMovies(filmeBuscado);
         setError(null);
@@ -90,6 +99,9 @@ return (
             />
             <p className='titulo'><strong>{movie.Title}</strong></p>
             <p className='year'>{movie.Year}</p>
+            <Link to='/detalhes'>
+              <button className='detalhes'>Ver detalhes</button>
+            </Link>
           </div>
         ))}
       </div>
