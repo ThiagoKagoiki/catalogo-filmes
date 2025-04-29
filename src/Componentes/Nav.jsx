@@ -7,6 +7,7 @@ const Nav = () => {
     <header>
         <h1>🎬 Mini Catálogo de Filmes</h1>
         <p>Encontre seus filmes favoritos</p>
+        
     </header>
   )
 }

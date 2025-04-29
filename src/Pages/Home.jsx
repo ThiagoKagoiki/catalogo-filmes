@@ -1,12 +1,12 @@
 import React from "react";
 import Nav from "../Componentes/Nav";
-import { MovieCard } from "../Componentes/MovieCard";
+import { MovieList } from "../Componentes/MovieList";
 
 export const Home = () => {
     return(
         <div>
             <Nav/>
-            <MovieCard/>
+            <MovieList/>
         </div>
     )
 }
