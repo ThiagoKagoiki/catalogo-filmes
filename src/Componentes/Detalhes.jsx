@@ -3,8 +3,12 @@ import React from "react";
 export const Detalhes = () => {
     return(
         <div>
-            <h2>Detalhes do filme</h2>
-            <p>Aqui vão aparecer os detalhes depois.</p>
+            <img src="" alt="" />
+            <h1 className="titulo">titulo</h1>
+            <p className="sinopse">sinopse</p>
+            <p className="data">data</p>
+            <p className="nota">nota</p>
+            <p className="genero">genero</p>
         </div>
     )
 }

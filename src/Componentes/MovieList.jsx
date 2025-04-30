@@ -23,23 +23,6 @@ export const MovieList = () => {
   if (error) return <p style={{ color: 'red' }}>Erro: {error}</p>;
 
   if (movies.length === 0) return <p>Carregando filmes...</p>;
-
-
-
-
-
-
-    const verdetalhes = (query) => {
-      fetch(`https://www.omdbapi.com/?apikey=85e5217c&t=${query}`)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data); // Aqui vai mostrar os detalhes do filme
-      })
-      .catch(error => console.error(error));
-      //console.log(query)
-    }
-    
-
   
     const fetchMovies = (query) => {
       fetch(`https://www.omdbapi.com/?apikey=85e5217c&s=${query}`)
@@ -99,8 +82,8 @@ return (
             />
             <p className='titulo'><strong>{movie.Title}</strong></p>
             <p className='year'>{movie.Year}</p>
-            <Link to='/detalhes'>
-              <button className='detalhes'>Ver detalhes</button>
+            <Link to='/detalhes' className='detalhes'>
+              Ver detalhes
             </Link>
           </div>
         ))}
