@@ -4,32 +4,33 @@ import { Link, useNavigate } from 'react-router-dom';
 
 export const MovieList = () => {
 
-  const [movies, setMovies] = useState([]);  // Lista de filmes
+  const [movies, setMovies] = useState([]); 
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetch('https://www.omdbapi.com/?apikey=85e5217c&s=movie')  // Busca inicial
+    fetch('https://www.omdbapi.com/?apikey=85e5217c&s=movie')
       .then(response => response.json())
+
       .then(data => {
-        if (data.Response === "False") {
+        if (data.response === "False") {
           throw new Error(data.Error);
         }
-        setMovies(data.Search);  // Aqui pega a lista de filmes
+        setMovies(data.Search);
       })
       .catch(err => setError(err.message));
-  }, []);
+  }, []); //tela inicial
 
-  if (error) return <p style={{ color: 'red' }}>Erro: {error}</p>;
 
-  if (movies.length === 0) return <p>Carregando filmes...</p>;
-  
+  if (error || movies.length === 0) return <p style={{ color: 'red' }}>Erro: {error}</p>;
+
     const fetchMovies = (query) => {
       fetch(`https://www.omdbapi.com/?apikey=85e5217c&s=${query}`)
       .then(response => response.json())
+
       .then(data => {
-        if (data.Response === "False") {
+        if (data.response === "False") {
           throw new Error(data.Error);
         }
         const filmeBuscado = data.Search.filter(movie => 
@@ -42,32 +43,10 @@ export const MovieList = () => {
         setMovies([]);
         setError(err.message);
       });
-    };
-
-    const fetchMoviesDetails = (query) => {
-      fetch(`https://www.omdbapi.com/?apikey=85e5217c&s=${query}`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.Response === "False") {
-          throw new Error(data.Error);
-        }
-        navigate('/detalhes', { state: { 
-          title: data.Title, 
-          poster: data.Poster, 
-          year: data.Year, 
-          plot: data.Plot, 
-          rating: data.Ratings, // Passando o array de ratings
-          genre: data.Genre 
-        }});
-      })
-      .catch(err => {
-        setMovies([]);
-        setError(err.message);
-      });
-    };
+    }; //busca por titulo
   
     const handleSearchMovie = (e) => {
-      e.preventDefault();
+      e.preventDefault(); //sem refresh ao pesquisar
       if (searchTerm.trim() !== '') {
         fetchMovies(searchTerm);
       }
@@ -78,9 +57,9 @@ export const MovieList = () => {
         title: movie.Title, 
         poster: movie.Poster, 
         year: movie.Year, 
-        plot: movie.Plot, // Adicione outros dados que você deseja passar
-        rating: movie.Rated, // Exemplo de nota
-        genre: movie.Genre // Exemplo de gênero
+        plot: movie.Plot, 
+        rating: movie.Rated, 
+        genre: movie.Genre 
       }});
     };
 
@@ -93,7 +72,7 @@ return (
             <input
             type="text"
             placeholder="Digite o nome do filme..."
-            value={searchTerm} // <- aqui é searchTerm, não query
+            value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             />
             <button>Buscar</button>
@@ -112,7 +91,6 @@ return (
             />
             <p className='titulo-filmes'><strong>{movie.Title}</strong></p>
             <p className='year'>{movie.Year}</p>
-            <p>{movie.Ratings}</p>
             <button to='/detalhes' className='detalhes' onClick={() => handleViewDetails(movie)}>
               Ver detalhes
             </button>
