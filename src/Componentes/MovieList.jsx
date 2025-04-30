@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import './MovieList.css'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const MovieList = () => {
 
   const [movies, setMovies] = useState([]);  // Lista de filmes
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetch('https://www.omdbapi.com/?apikey=85e5217c&s=movie')  // Busca inicial
@@ -42,6 +43,28 @@ export const MovieList = () => {
         setError(err.message);
       });
     };
+
+    const fetchMoviesDetails = (query) => {
+      fetch(`https://www.omdbapi.com/?apikey=85e5217c&s=${query}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.Response === "False") {
+          throw new Error(data.Error);
+        }
+        navigate('/detalhes', { state: { 
+          title: data.Title, 
+          poster: data.Poster, 
+          year: data.Year, 
+          plot: data.Plot, 
+          rating: data.Ratings, // Passando o array de ratings
+          genre: data.Genre 
+        }});
+      })
+      .catch(err => {
+        setMovies([]);
+        setError(err.message);
+      });
+    };
   
     const handleSearchMovie = (e) => {
       e.preventDefault();
@@ -50,9 +73,16 @@ export const MovieList = () => {
       }
     };
 
-
-
-
+    const handleViewDetails = (movie) => {
+      navigate('/detalhes', { state: { 
+        title: movie.Title, 
+        poster: movie.Poster, 
+        year: movie.Year, 
+        plot: movie.Plot, // Adicione outros dados que você deseja passar
+        rating: movie.Rated, // Exemplo de nota
+        genre: movie.Genre // Exemplo de gênero
+      }});
+    };
 
 
 
@@ -80,11 +110,12 @@ return (
               src={movie.Poster !== "N/A" ? movie.Poster : "https://via.placeholder.com/200x300?text=Sem+Imagem"}
               alt={movie.Title}
             />
-            <p className='titulo'><strong>{movie.Title}</strong></p>
+            <p className='titulo-filmes'><strong>{movie.Title}</strong></p>
             <p className='year'>{movie.Year}</p>
-            <Link to='/detalhes' className='detalhes'>
+            <p>{movie.Ratings}</p>
+            <button to='/detalhes' className='detalhes' onClick={() => handleViewDetails(movie)}>
               Ver detalhes
-            </Link>
+            </button>
           </div>
         ))}
       </div>

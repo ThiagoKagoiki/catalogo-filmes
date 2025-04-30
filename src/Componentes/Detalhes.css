@@ -1,0 +1,18 @@
+.poster-detalhes{
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+    border: 3px solid black;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 4px;
+}
+
+.titulo{
+    font-size: 50px;
+}
+
+.infos{
+    align-items: center;
+    text-align: center;
+}
