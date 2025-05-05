@@ -6,6 +6,7 @@ export const MovieList = () => {
 
   const [movies, setMovies] = useState([]); 
   const [error, setError] = useState(null);
+  // const favoritos = []
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate()
 
@@ -54,14 +55,28 @@ export const MovieList = () => {
 
     const handleViewDetails = (movie) => {
       navigate('/detalhes', { state: { 
-        title: movie.Title, 
-        poster: movie.Poster, 
-        year: movie.Year, 
-        plot: movie.Plot, 
-        rating: movie.Rated, 
-        genre: movie.Genre 
+          title: movie.Title, 
+          poster: movie.Poster, 
+          year: movie.Year, 
+          plot: movie.Plot, 
+          rating: movie.Rated, 
+          genre: movie.Genre 
       }});
-    };
+  };
+
+  // const handleViewFavoritos = (movie) => {
+  //   navigate('./favoritos', { state: { 
+  //     title: movie.Title, 
+  //     poster: movie.Poster, 
+  //     year: movie.Year, 
+  //     plot: movie.Plot, 
+  //     rating: movie.Rated, 
+  //     genre: movie.Genre 
+  // }})
+  //   favoritos.push()
+  //   console.log(favoritos)
+  // }
+  
 
 
 
@@ -76,6 +91,8 @@ return (
             onChange={(e) => setSearchTerm(e.target.value)}
             />
             <button>Buscar</button>
+
+            {/* <button id='favoritos' to='/favoritos'>Favoritos</button> */}
         </form>
 
         <h2 className='titulo-cards'>Filmes</h2>
@@ -94,6 +111,7 @@ return (
             <button to='/detalhes' className='detalhes' onClick={() => handleViewDetails(movie)}>
               Ver detalhes
             </button>
+            {/* <button onClick={handleViewFavoritos()}>♥</button> */}
           </div>
         ))}
       </div>
